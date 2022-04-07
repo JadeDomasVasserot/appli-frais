@@ -21,8 +21,14 @@ switch($action){
 			$id = $visiteur['id'];
 			$nom =  $visiteur['nom'];
 			$prenom = $visiteur['prenom'];
+			$statut = $visiteur['statut'];
 			connecter($id,$nom,$prenom);
-			include("vues/v_sommaire.php");
+			if($statut =='V'){
+				include("vues/v_sommaire.php");
+			}
+			else if ($statut == 'C'){
+				include("vues/v_comptable.php");
+			}
 		}
 		break;
 	}
