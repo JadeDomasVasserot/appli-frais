@@ -60,6 +60,57 @@ class PdoGsb{
 		$ligne = $rs->fetch();
 		return $ligne;
 	}
+/**
+ * Retourne la liste des visiteurs
+ 
+
+ * @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
+*/
+	public function getVisiteurs(){
+		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from  visiteur
+		order by visiteur.nom asc ";
+		$res = PdoGsb::$monPdo->query($req);
+		$lesVisiteurs =array();
+		$laLigne = $res->fetch();
+		while($laLigne != null)	{
+			$id = $laLigne['id'];
+			$nom = $laLigne['nom'];
+			$prenom = $laLigne['prenom'];
+			$lesVisiteurs["$id"]=array(
+		    "id"=>"$id",
+		    "nom"  => "$nom",
+			"prenom"  => "$prenom"
+             );
+			$laLigne = $res->fetch(); 		
+		}
+		return $lesVisiteurs;
+		
+	}
+/**
+ * Retourne le visiteur choisi par le comptable dans le module suivre 
+
+ * @return l'id, le nom  sous la forme d'un tableau associatif 
+*/
+public function getLeVisiteur($leVisiteur){
+	$req = "select visiteur.id as id, visiteur.nom as nom from  visiteur where visiteur.nom = '$leVisiteur' 
+	order by visiteur.nom asc ";
+	$res = PdoGsb::$monPdo->query($req);
+	$visiteur =array();
+	$laLigne = $res->fetch();
+	while($laLigne != null)	{
+		$id = $laLigne['id'];
+		$nom = $laLigne['nom'];
+		$visiteur=array(
+		"id"=>"$id",
+		"nom"  => "$nom",
+		 );
+		$laLigne = $res->fetch(); 		
+	}
+	return $visiteur;
+	
+}
+	
+	
 
 /**
  * Retourne sous forme d'un tableau associatif toutes les lignes de frais hors forfait
@@ -232,7 +283,7 @@ class PdoGsb{
 	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
 		$dateFr = dateFrancaisVersAnglais($date);
 		$req = "insert into lignefraishorsforfait 
-		values('','$idVisiteur','$mois','$libelle','$dateFr','$montant')";
+		values(NULL,'$idVisiteur','$mois','$libelle','$dateFr','$montant')";
 		PdoGsb::$monPdo->exec($req);
 	}
 /**
@@ -269,6 +320,30 @@ class PdoGsb{
 		}
 		return $lesMois;
 	}
+/**
+ * Retourne les mois qui ont un minimumm une fiche de frais
+ 
+ * @return un tableau associatif de clé un mois -aaaamm- et de valeurs l'année et le mois correspondant 
+*/
+public function getLesMoisFicheFrais(){
+	$req = "select fichefrais.mois as mois from  fichefrais
+	order by fichefrais.mois desc ";
+	$res = PdoGsb::$monPdo->query($req);
+	$lesMois =array();
+	$laLigne = $res->fetch();
+	while($laLigne != null)	{
+		$mois = $laLigne['mois'];
+		$numAnnee =substr( $mois,0,4);
+		$numMois =substr( $mois,4,2);
+		$lesMois["$mois"]=array(
+		 "mois"=>"$mois",
+		"numAnnee"  => "$numAnnee",
+		"numMois"  => "$numMois"
+		 );
+		$laLigne = $res->fetch(); 		
+	}
+	return $lesMois;
+}
 /**
  * Retourne les informations d'une fiche de frais d'un visiteur pour un mois donné
  
