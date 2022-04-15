@@ -1,16 +1,10 @@
 ﻿    <!-- Division pour le sommaire -->
     <div id="menuGauche">
-     <div id="infosUtil">
-    
-        <h2>
-    
-</h2>
-    
-      </div>  
+     <div id="infosUtil"> 
         <ul id="menuList">
 			<li >
 				  Visiteur :<br>
-				<?php echo $_SESSION['prenom']."  ".$_SESSION['nom']  ?>
+              <h2><?php echo $_SESSION['prenom']."  ".$_SESSION['nom']  ?></h2>
 			</li>
            <li class="smenu">
               <a href="index.php?uc=gererFrais&action=saisirFrais" title="Saisie fiche de frais ">Saisie fiche de frais</a>
@@ -22,6 +16,6 @@
               <a href="index.php?uc=connexion&action=deconnexion" title="Se déconnecter">Déconnexion</a>
            </li>
          </ul>
-        
+      </div>
     </div>
     

@@ -19,8 +19,14 @@ switch($uc){
 	case 'etatFrais' :{
 		include("controleurs/c_etatFrais.php");break; 
 	}
-	case 'suivreFrais' :{
-		include("controleurs/c_suivreFrais.php");break;
+	case 'gererFraisComptable' :{
+		include("controleurs/c_gererFraisComptable.php");break;
+	}
+	case 'etatFraisComptable' :{
+		include("controleurs/c_etatFraisComptable.php");break; 
+	}
+	case 'rembourserFrais' :{
+		include("controleurs/c_rembourserFrais.php");break;
 	}
 	case 'validerFrais' :{
 		include("controleurs/c_validerFrais.php");break; 

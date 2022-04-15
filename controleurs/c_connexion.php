@@ -24,10 +24,10 @@ switch($action){
 			$statut = $visiteur['statut'];
 			connecter($id,$nom,$prenom);
 			if($statut =='V'){
-				include("vues/v_sommaire.php");
+				include("vues/v_sommaireVisiteur.php");
 			}
 			else if ($statut == 'C'){
-				include("vues/v_comptable.php");
+				include("vues/v_sommaireComptable.php");
 			}
 		}
 		break;

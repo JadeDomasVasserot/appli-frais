@@ -1,5 +1,5 @@
 <?php
-include("vues/v_sommaireVisiteur.php");
+include("vues/v_sommaireComptable.php");
 $idVisiteur = $_SESSION['idVisiteur'];
 $mois = getMois(date("d/m/Y"));
 $numAnnee =substr( $mois,0,4);
@@ -44,7 +44,7 @@ switch($action){
 }
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur,$mois);
 $lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$mois);
-include("vues/v_listeFraisForfaitVisiteur.php");
-include("vues/v_listeFraisHorsForfaitVisiteur.php");
+include("vues/v_listeFraisForfaitComptable.php");
+include("vues/v_listeFraisHorsForfaitComptable.php");
 
 ?>

@@ -1,8 +1,7 @@
-
- <div id="contenu">
-      <h2>Suivre les fiches de frais</h2>
-      <h3>Recherche </h3>
-      <form action="index.php?uc=suivreFrais&action=afficherFicheFrais" method="post">
+﻿ <div id="contenu">
+      <h2>Mes fiches de frais</h2>
+      <h3>Mois à sélectionner : </h3>
+      <form action="index.php?uc=etatFraisComptable&action=voirEtatFrais" method="post">
       <div class="corpsForm">
          
       <p>
@@ -12,7 +11,7 @@
             <?php
 			foreach ($lesMois as $unMois)
 			{
-			  $mois = $unMois['mois'];
+			    $mois = $unMois['mois'];
 				$numAnnee =  $unMois['numAnnee'];
 				$numMois =  $unMois['numMois'];
 				if($mois == $moisASelectionner){
@@ -25,18 +24,8 @@
 				<?php 
 				}
 			
-			}       
-		   ?>    
-        </select>
-        <select id="lstVisiteur" name="lstVisiteur">
-            <?php
-			foreach ($lesVisiteurs as $unVisiteur)
-			{
-				$visiteur = $unVisiteur['nom'];
-				?>
-				<option selected value="<?php echo $visiteur ?>"><?php echo  $visiteur?> </option>
-				<?php 
-			}    
+			}
+           
 		   ?>    
             
         </select>
@@ -50,4 +39,3 @@
       </div>
         
       </form>
-      
