@@ -1,9 +1,10 @@
-<div class ="erreur">
-<ul>
-<?php 
-foreach($_REQUEST['erreurs'] as $erreur)
-	{
-      echo "<li>$erreur</li>";
-	}
-?>
-</ul></div>
+<!-- Vue qui affiche les erreurs -->
+<div class="erreur">
+	<ul>
+		<?php
+		foreach ($_REQUEST['erreurs'] as $erreur) {
+			echo "<li>$erreur</li>";
+		}
+		?>
+	</ul>
+</div>

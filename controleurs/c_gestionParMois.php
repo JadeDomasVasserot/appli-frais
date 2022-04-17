@@ -1,14 +1,16 @@
 ﻿<?php
+/**Controleur pour affiche les fiches selon le mois choisit
+ * Un gestionnaire chosit le mois 
+ * Il peut voir la liste des fiches dans le tableau
+ */
 include("vues/v_sommaireGestionnaire.php");
 $action = $_REQUEST['action'];
 $idVisiteur = $_SESSION['idVisiteur'];
 $lesMois=$pdo->getLesMoisFicheFrais();
 $ficheSelect = false;
+
 switch($action){
 	case 'selectionnerMois':{
-		// Afin de sélectionner par défaut le dernier mois dans la zone de liste
-		// on demande toutes les clés, et on prend la première,
-		// les mois étant triés décroissants
 		$lesCles = array_keys( $lesMois );
 		$moisASelectionner = $lesCles[0];
 		break;
@@ -22,6 +24,6 @@ switch($action){
 		break;
 	}
 }
-include("vues/v_listeMoisGestionnaire.php");
+include("vues/v_listeFicheParMois.php");
 include("vues/v_afficherFicheMois.php");
 ?>

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Page générale qui permet de définit le chemins de chaque contrôleur
+ * exemple de lien index.php?uc=validerFrais&action=rechercherFicheFrais
+ * On démarre la session et on définie connexion comme 1ère page
+ * On démarre la connxion à la BDD
+ */
 require_once("include/fct.inc.php");
 require_once ("include/class.pdogsb.inc.php");
 include("vues/v_entete.php") ;
@@ -31,6 +37,12 @@ switch($uc){
 	case 'validerFrais' :{
 		include("controleurs/c_validerFrais.php");break; 
 	}
+	case 'gererFraisGestionnaire' :{
+		include("controleurs/c_gererFraisGestionnaire.php");break;
+	}
+	case 'etatFraisGestionnaire' :{
+		include("controleurs/c_etatFraisGestionnaire.php");break; 
+	}
 	case 'gestionParMois' :{
 		include("controleurs/c_gestionParMois.php");break; 
 	}
@@ -39,5 +51,3 @@ switch($uc){
 	}
 }
 include("vues/v_pied.php") ;
-?>
-

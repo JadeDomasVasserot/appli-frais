@@ -1,7 +1,12 @@
 <?php
+/**Controleur qui affiche les fiches de frais Cloturées en Etat CL
+ * Un comptable chosit la fiche qu'il souhaite mettre en validation/mise en paiement grâce au lien Modifier/Valider 
+ * Il peut voir la liste des fiches CL dans le tableau
+ */
 include("vues/v_sommaireComptable.php");
 $action = $_REQUEST['action'];
 $idVisiteur = $_SESSION['idVisiteur'];
+// récupère les variables passées en paramètre et lance les select en BDD
 if(isset($_GET['mois']) &&isset($_GET['idVisiteur'])){
 	$leMois = $_GET['mois']; 
 	$leVisiteur = $_GET['idVisiteur'];
@@ -12,28 +17,34 @@ if(isset($_GET['mois']) &&isset($_GET['idVisiteur'])){
 }
 $lesMois=$pdo->getLesMoisFicheFrais();
 $lesVisiteursCL=$pdo->selectVisiteurCL();
+//affiche les détails de la fiche sélectionnée si le comptable clique sur Modifier/Valider
 $rechercheOK = false;
+
 switch($action){
+	//Liste les fiches CL
 	case 'selectionnerVisiteur':{	
 		break;
 	}
+	//Affiche les détails de la fiche sélectionnée sous le tableau
 	case 'rechercherFicheFrais':{
-		
 		$rechercheOK = true;
 		break;
 	}
+	// lien permettant de modfier les quantités si elles ne sont pas valides
 	case 'modifierFraisForfait':{
 		$lesFrais = $_REQUEST['lesFrais'];
 		if(lesQteFraisValides($lesFrais)){
 			$pdo->majFraisForfait($leVisiteur,$leMois,$lesFrais);	
 			header('Location: index.php?uc=validerFrais&action=rechercherFicheFrais&idVisiteur='.$leVisiteur.'&mois='.$leMois);
 	 	} else{
-		 ajouterErreur("Les valeurs des frais doivent être numériques");
-		 include("vues/v_erreurs.php");
+			ajouterErreur("Les valeurs des frais doivent être numériques");
+			include("vues/v_erreurs.php");
 	 	}
 		break;
 	}
-    case 'validerFrais':{
+	// lien permettant de valider la fiche et de changer son état de CL à VA (cloturée à validée)
+    // Permet aussi d'enregistrer en BDD le nombre de justificatifs (si changer) ainsi que le montant validé
+	case 'validerFrais':{
 		//Update Etat
 		$etat = "VA";
 		//Update NbJustificatifs
@@ -45,6 +56,7 @@ switch($action){
 		$leVisiteur.'&mois='.$leMois);
 		break;
     }
+	//Suppression du frais hors forfait sélectionné
 	case 'supprimerFrais':{
 		$rechercheOK = true;
 		$idFrais = $_GET['idFrais'];
@@ -54,7 +66,6 @@ switch($action){
 		break;
 	}
 }
-
 	include("vues/v_listeChoixCL.php");
 	include("vues/v_validerFrais.php");
 ?>
