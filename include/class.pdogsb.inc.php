@@ -484,12 +484,29 @@ public function majValiderFicheFrais($idVisiteur,$mois,$etat, $justificatifs, $m
 		return $lignes;
 	}
 /**
-* Change l'état de toutes les fiches de frais du mois précédant en CL
+* Change l'état de toutes les fiches de frais des mois précédant en CL
 *
 */
 	public function changementAutomatiseCL(){
 		$date = date("Ym");
 		$ficheFraisCR = "SELECT * FROM fichefrais WHERE idEtat ='CR' and mois < '$date'";
+		$res = PdoGsb::$monPdo->query($ficheFraisCR);
+		$lignes = $res->fetchAll();
+		foreach($lignes as $ligne){
+			$req = "UPDATE ficheFrais
+			SET idEtat = 'CL', dateModif = now()
+			where fichefrais.idVisiteur ='".$ligne['idVisiteur']."' and fichefrais.mois = '".$ligne['mois']."'";
+			$res = PdoGsb::$monPdo->query($req);
+			$res->fetch();
+		}
+	}
+/**
+* Change l'état de toutes les fiches de frais du mois précédant en CL lors de la nouvelle saisie du visiteur
+*
+*/
+	public function changementAutomatiseCLVisiteur($idVisiteur){
+		$date = date("Ym");
+		$ficheFraisCR = "SELECT * FROM fichefrais WHERE idEtat ='CR' and mois < '$date' and idVisiteur='$idVisiteur'";
 		$res = PdoGsb::$monPdo->query($ficheFraisCR);
 		$lignes = $res->fetchAll();
 		foreach($lignes as $ligne){
