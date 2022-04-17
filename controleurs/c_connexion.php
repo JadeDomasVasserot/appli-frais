@@ -29,6 +29,9 @@ switch($action){
 			else if ($statut == 'C'){
 				include("vues/v_sommaireComptable.php");
 			}
+			else if ($statut == 'G'){
+				include("vues/v_sommaireGestionnaire.php");
+			}
 		}
 		break;
 	}

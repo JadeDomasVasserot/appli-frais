@@ -29,7 +29,7 @@ switch($action){
 		break;
 	}
 }
-include("vues/v_listeFiche.php");
+include("vues/v_listeFicheVA.php");
 include("vues/v_rembourserFrais.php");
 
 ?>

@@ -19,7 +19,7 @@
 						?>
 					</tr>
 					<form action="index.php?uc=validerFrais&action=modifierFraisForfait&idVisiteur=
-			<?= $visiteurSelect['id'].'&mois='.$visiteurSelect['mois']?>" method="post">
+			<?= $leVisiteur.'&mois='.$leMois?>" method="post">
 					<tr>
 						<td>Quantité</td>
 					<?php
@@ -47,6 +47,7 @@
 					 $totalForfait=0;
 					foreach ($lesFraisForfait as $unFraisForfait) 
 					{
+						$quantite = $unFraisForfait['quantite'];
 						$montantValide = $unFraisForfait['montant'];
 						$totalParLibelle = $quantite*$montantValide;
 						echo '<td>'.$totalParLibelle.' €</td>';
@@ -57,7 +58,7 @@
 					</table>
 					<input type="submit" value="modifier les quantités" style="margin:5px;">
 					</form>
-					<h4>TOTAL : <?php echo $totalForfait ?> €</h4> 
+					<h4>TOTAL : <?php echo $totalForfait ?> €</h4>
 					<?php } 
 					if($lesFraisHorsForfait != false){?>
 						<p class="titre" /><div style="clear:left;"><h2>Hors Forfait</h2></div>
@@ -88,7 +89,7 @@
 					<?php
 					}?>
 					<form action="index.php?uc=validerFrais&action=validerFrais&idVisiteur=
-					<?= $visiteurSelect['id'].'&mois='.$visiteurSelect['mois']?>" method="post">
+					<?= $leVisiteur.'&mois='.$leMois?>" method="post">
 						<p class="titre"></p>
 						<div class="titre">Nb Justificatifs</div>
 						<input type="number" class="zone" name="justificatifs" size="4" value="<?php echo $lesInfosFicheFrais["nbJustificatifs"];
@@ -110,9 +111,10 @@
 						}
 						echo $totalHFetF.'<input name="total" type="hidden"value="'.$totalHFetF.'">' ?>
 						</h4> 
+						</h4> 
 							<input class="zone"type="reset" />
-							<input class="zone"type="submit" value="Validée la fiche"/>
-				</form>
+							<input class="zone"type="submit" value="Valider la fiche"/>				
+					</form>
 				
 				<?php
 				}

@@ -57,7 +57,7 @@
                 <th>Situation</th>
                 <th>Date opération</th>
             </tr>
-            <tr align="center">
+            
                 <?php	foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
                         $ficheSituation = $lesInfosFicheFrais["libEtat"];
                         $ficheDateOperation = $lesInfosFicheFrais["dateModif"];
@@ -65,7 +65,7 @@
                         $idFrais = $unFraisHorsForfait['id'];
                         $montant = $unFraisHorsForfait['montant'];
                         $libelle = $unFraisHorsForfait['libelle'];
-                        echo '<td name="date">'.$date.'</td>
+                        echo '<tr align="center"><td name="date">'.$date.'</td>
                         <td name="libelle">'.$libelle.'</td>
                         <td name="montant">'.$montant.'</td>
                         <td width="80"> <label size="3" name="situation" />'.

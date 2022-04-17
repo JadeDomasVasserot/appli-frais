@@ -18,13 +18,14 @@ switch($action){
 		break;
 	}
 	case 'rechercherFicheFrais':{
+		
 		$rechercheOK = true;
 		break;
 	}
 	case 'modifierFraisForfait':{
 		$lesFrais = $_REQUEST['lesFrais'];
 		if(lesQteFraisValides($lesFrais)){
-			$pdo->majFraisForfait($leVisiteur,$leMois,$lesFrais);
+			$pdo->majFraisForfait($leVisiteur,$leMois,$lesFrais);	
 			header('Location: index.php?uc=validerFrais&action=rechercherFicheFrais&idVisiteur='.$leVisiteur.'&mois='.$leMois);
 	 	} else{
 		 ajouterErreur("Les valeurs des frais doivent être numériques");
@@ -40,7 +41,8 @@ switch($action){
 		//Update montant
 		$total = $_REQUEST['total'];
 		$modifEtat = $pdo->majValiderFicheFrais($leVisiteur,$leMois,$etat, $justificatifs, $total);
-		header('Location: index.php?uc=validerFrais&action=selectionnerVisiteur&idVisiteur='.$leVisiteur.'&mois='.$leMois);
+		header('Location: index.php?uc=rembourserFrais&action=afficherFiche&idVisiteur='.
+		$leVisiteur.'&mois='.$leMois);
 		break;
     }
 	case 'supprimerFrais':{
@@ -48,10 +50,11 @@ switch($action){
 		$idFrais = $_GET['idFrais'];
 		$libelleSupprimer = $_GET['libelle'];
 	    $pdo->majSuppressionFraisHF($idFrais, $libelleSupprimer);
-		header('Location: index.php?uc=validerFrais&action=rechercherFicheFrais&idVisiteur='.$_GET['idVisiteur'].'&mois='.$mois);
+		header('Location: '. $_SERVER['HTTP_REFERER']);		
 		break;
 	}
 }
-	include("vues/v_listeChoix.php");
+
+	include("vues/v_listeChoixCL.php");
 	include("vues/v_validerFrais.php");
 ?>

@@ -24,6 +24,5 @@
            </li>
          </ul>
     </div>
-       <h1>Campagne de clôturation des fiches</h1>
        
     

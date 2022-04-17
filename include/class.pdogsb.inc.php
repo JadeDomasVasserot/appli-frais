@@ -140,9 +140,9 @@ class PdoGsb{
 		$lesCles = array_keys($lesFrais);
 		foreach($lesCles as $unIdFrais){
 			$qte = $lesFrais[$unIdFrais];
-			$req = "update lignefraisforfait set lignefraisforfait.quantite = $qte
-			where lignefraisforfait.idvisiteur = '$idVisiteur' and lignefraisforfait.mois = '$mois'
-			and lignefraisforfait.idfraisforfait = '$unIdFrais'";
+			$req = "update lignefraisforfait set lignefraisforfait.quantite = '$qte'
+			where lignefraisforfait.idVisiteur = '$idVisiteur' and lignefraisforfait.mois = '$mois'
+			and lignefraisforfait.idFraisForfait = '$unIdFrais'";
 			PdoGsb::$monPdo->exec($req);
 		}
 	}
@@ -358,7 +358,8 @@ public function getLesMoisFicheFrais(){
 	public function selectVisiteurCL(){
 		$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, visiteur.nom as nom, visiteur.prenom as prenom FROM fichefrais
 		INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
-		WHERE  fichefrais.idEtat ='CL'" ;
+		WHERE  fichefrais.idEtat ='CL'
+		ORDER BY mois DESC" ;
 		$res = PdoGsb::$monPdo->query($req);
 		$lignes = $res->fetchAll();
 		return $lignes;
@@ -416,14 +417,14 @@ public function getLesMoisFicheFrais(){
  * @param $mois sous la forme aaaamm
  */
  
-	public function majValiderFicheFrais($idVisiteur,$mois,$etat,  $justificatifs, $montant){
+public function majValiderFicheFrais($idVisiteur,$mois,$etat, $justificatifs, $montant){
 
-		$req = "update fichefrais 
-		set idEtat = '$etat', 
-		dateModif = now(),
-		nbJustificatifs = '$justificatifs',
-		montantValide = '$montant'
-		where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
+	$req = "update fichefrais 
+	set idEtat = '$etat', 
+	dateModif = now(),
+	nbJustificatifs = '$justificatifs',
+	montantValide = '$montant'
+		where fichefrais.idVisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
 		PdoGsb::$monPdo->exec($req);
 	}
 
@@ -446,12 +447,45 @@ public function getLesMoisFicheFrais(){
 * @return l'id, le nom et le prénom et l'état de la fiche sous la forme d'un tableau associatif 
 */
 	public function selectFichesVisiteursVA(){
-		$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom FROM fichefrais
+		$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois,  fichefrais.dateModif as date, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom FROM fichefrais
 		INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
-		WHERE  fichefrais.idEtat ='VA'" ;
+		WHERE  fichefrais.idEtat ='VA'
+		ORDER BY mois DESC" ;
 		$res = PdoGsb::$monPdo->query($req);
 		$lignes = $res->fetchAll();
 		return $lignes;
 	}
+		/**
+* Retourne la liste des fiches de frais au mois selectionné
+
+
+*
+*/
+public function selectFichesByMois($mois){
+	$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom, etat.libelle as libelleEtat FROM fichefrais
+	INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
+	INNER JOIN etat ON etat.id = fichefrais.idEtat
+	WHERE  fichefrais.mois ='$mois'
+	ORDER BY mois DESC" ;
+	$res = PdoGsb::$monPdo->query($req);
+	$lignes = $res->fetchAll();
+	return $lignes;
+}
+		/**
+* Retourne la liste des fiches de frais au visiteur selectionné
+
+
+*
+*/
+public function selectFichesByVisiteur($visiteurId){
+	$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom, etat.libelle as libelleEtat FROM fichefrais
+	INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
+	INNER JOIN etat ON etat.id = fichefrais.idEtat
+	WHERE  fichefrais.idVisiteur ='$visiteurId'
+	ORDER BY mois DESC" ;
+	$res = PdoGsb::$monPdo->query($req);
+	$lignes = $res->fetchAll();
+	return $lignes;
+}
 }
 ?>

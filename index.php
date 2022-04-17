@@ -31,6 +31,12 @@ switch($uc){
 	case 'validerFrais' :{
 		include("controleurs/c_validerFrais.php");break; 
 	}
+	case 'gestionParMois' :{
+		include("controleurs/c_gestionParMois.php");break; 
+	}
+	case 'gestionParVisiteur' :{
+		include("controleurs/c_gestionParVisiteur.php");break; 
+	}
 }
 include("vues/v_pied.php") ;
 ?>
