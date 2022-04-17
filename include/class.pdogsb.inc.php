@@ -455,37 +455,50 @@ public function majValiderFicheFrais($idVisiteur,$mois,$etat, $justificatifs, $m
 		$lignes = $res->fetchAll();
 		return $lignes;
 	}
-		/**
+/**
 * Retourne la liste des fiches de frais au mois selectionné
-
-
 *
 */
-public function selectFichesByMois($mois){
-	$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom, etat.libelle as libelleEtat FROM fichefrais
-	INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
-	INNER JOIN etat ON etat.id = fichefrais.idEtat
-	WHERE  fichefrais.mois ='$mois'
-	ORDER BY mois DESC" ;
-	$res = PdoGsb::$monPdo->query($req);
-	$lignes = $res->fetchAll();
-	return $lignes;
-}
-		/**
+	public function selectFichesByMois($mois){
+		$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom, etat.libelle as libelleEtat FROM fichefrais
+		INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
+		INNER JOIN etat ON etat.id = fichefrais.idEtat
+		WHERE  fichefrais.mois ='$mois'
+		ORDER BY mois DESC" ;
+		$res = PdoGsb::$monPdo->query($req);
+		$lignes = $res->fetchAll();
+		return $lignes;
+	}
+/**
 * Retourne la liste des fiches de frais au visiteur selectionné
-
-
 *
 */
-public function selectFichesByVisiteur($visiteurId){
-	$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom, etat.libelle as libelleEtat FROM fichefrais
-	INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
-	INNER JOIN etat ON etat.id = fichefrais.idEtat
-	WHERE  fichefrais.idVisiteur ='$visiteurId'
-	ORDER BY mois DESC" ;
-	$res = PdoGsb::$monPdo->query($req);
-	$lignes = $res->fetchAll();
-	return $lignes;
-}
+	public function selectFichesByVisiteur($visiteurId){
+		$req = "select fichefrais.idVisiteur as id, fichefrais.idEtat as etat,  fichefrais.mois as mois, fichefrais.montantValide as montant, visiteur.nom as nom, visiteur.prenom as prenom, etat.libelle as libelleEtat FROM fichefrais
+		INNER JOIN visiteur ON visiteur.id = fichefrais.idVisiteur
+		INNER JOIN etat ON etat.id = fichefrais.idEtat
+		WHERE  fichefrais.idVisiteur ='$visiteurId'
+		ORDER BY mois DESC" ;
+		$res = PdoGsb::$monPdo->query($req);
+		$lignes = $res->fetchAll();
+		return $lignes;
+	}
+/**
+* Change l'état de toutes les fiches de frais du mois précédant en CL
+*
+*/
+	public function changementAutomatiseCL(){
+		$date = date("Ym");
+		$ficheFraisCR = "SELECT * FROM fichefrais WHERE idEtat ='CR' and mois < '$date'";
+		$res = PdoGsb::$monPdo->query($ficheFraisCR);
+		$lignes = $res->fetchAll();
+		foreach($lignes as $ligne){
+			$req = "UPDATE ficheFrais
+			SET idEtat = 'CL', dateModif = now()
+			where fichefrais.idVisiteur ='".$ligne['idVisiteur']."' and fichefrais.mois = '".$ligne['mois']."'";
+			$res = PdoGsb::$monPdo->query($req);
+			$res->fetch();
+		}
+	}
 }
 ?>

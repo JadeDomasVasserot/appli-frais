@@ -27,6 +27,7 @@ switch($action){
 				include("vues/v_sommaireVisiteur.php");
 			}
 			else if ($statut == 'C'){
+				$pdo->changementAutomatiseCL();
 				include("vues/v_sommaireComptable.php");
 			}
 			else if ($statut == 'G'){
