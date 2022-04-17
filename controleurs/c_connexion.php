@@ -11,7 +11,9 @@ switch($action){
 	case 'valideConnexion':{
 		$login = $_REQUEST['login'];
 		$mdp = $_REQUEST['mdp'];
-		$visiteur = $pdo->getInfosVisiteur($login,$mdp);
+		//augmenter taille en bdd du mdp
+		$mdpCrypté = md5($mdp);
+		$visiteur = $pdo->getInfosVisiteur($login,$mdpCrypté);
 		if(!is_array( $visiteur)){
 			ajouterErreur("Login ou mot de passe incorrect");
 			include("vues/v_erreurs.php");

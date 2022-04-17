@@ -517,5 +517,21 @@ public function majValiderFicheFrais($idVisiteur,$mois,$etat, $justificatifs, $m
 			$res->fetch();
 		}
 	}
+/**
+* Crypte avec md5 chaque mdp
+*
+*/
+	public function crypterMDP(){
+		$mdp = "SELECT mdp, id FROM visiteur";
+		$res = PdoGsb::$monPdo->query($mdp);
+		$lignes = $res->fetchAll();
+		foreach($lignes as $ligne){
+			$req = "UPDATE visiteur
+			SET mdp = '".md5($ligne["mdp"])."'
+			WHERE id ='".$ligne["id"]."';";
+			$res = PdoGsb::$monPdo->query($req);
+			$res->fetch();
+		}
+	}
 }
 ?>
