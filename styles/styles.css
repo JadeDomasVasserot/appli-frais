@@ -8,7 +8,6 @@ body {
   font-family: "Trebuchet MS", Verdana, Geneva, Arial, Helvetica, sans-serif;
   font-size: 0.8em;
 }
-
 #page {
   background-color: white;
   width: 65%;
@@ -16,7 +15,6 @@ body {
   border: 0.2em solid black;
   padding: 0.1em;
 }
-
 #entete {
   background-color: rgb(72, 198, 236);
   color: #980101;

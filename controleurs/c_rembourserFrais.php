@@ -13,6 +13,7 @@ $remboursementOK = false;
 if(isset($_GET['mois']) &&isset($_GET['idVisiteur'])){
 	$leMois = $_GET['mois']; 
 	$leVisiteur = $_GET['idVisiteur'];
+	$visiteurSelect = $pdo->getLeVisiteurById($leVisiteur);
 	$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($leVisiteur,$leMois);
 	$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($leVisiteur,$leMois);
 	$lesFraisForfait= $pdo->getLesFraisForfait($leVisiteur,$leMois);

@@ -80,8 +80,8 @@ switch($action){
 		$pdf->Total($lesFraisForfait, $lesFraisHorsForfait);
 		// Affichage de la signature et de la date de modif
 		$pdf->Signature($lesInfosFicheFrais);
-		// Output avec ses options permet de dire qu'on veut le faire télécharge 'D' et qu'il portera le nom ficheFrais+Mois+IdVisiteur.pdf
-		$pdf->Output('D','ficheFrais_'.$leMois.'_'.$idVisiteur.'.pdf', true);
+		// Output avec ses options permet de dire qu'on veut le faire télécharge 'D' et qu'il portera le nom ficheFrais+Mois+nom du visteur.pdf
+		$pdf->Output('D','ficheFrais_'.$leMois.'_'.$lesInfosVisiteurs["nom"].'.pdf', true);
 		break;
 	}
 }

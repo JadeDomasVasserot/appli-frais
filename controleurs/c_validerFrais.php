@@ -55,6 +55,31 @@ switch($action){
 		header('Location: index.php?uc=rembourserFrais&action=afficherFiche&idVisiteur='.
 		$leVisiteur.'&mois='.$leMois);
 		break;
+	}
+	case 'modifierFraisForfait':{
+		$lesFrais = $_REQUEST['lesFrais'];
+		if(lesQteFraisValides($lesFrais)){
+			$pdo->majFraisForfait($leVisiteur,$leMois,$lesFrais);	
+			header('Location: index.php?uc=validerFrais&action=rechercherFicheFrais&idVisiteur='.$leVisiteur.'&mois='.$leMois);
+	 	} else{
+			ajouterErreur("Les valeurs des frais doivent être numériques");
+			include("vues/v_erreurs.php");
+	 	}
+		break;
+	}
+	// lien permettant de valider la fiche et de changer son état de CL à VA (cloturée à validée)
+    // Permet aussi d'enregistrer en BDD le nombre de justificatifs (si changer) ainsi que le montant validé
+	case 'validerFrais':{
+		//Update Etat
+		$etat = "VA";
+		//Update NbJustificatifs
+		$justificatifs = $_REQUEST['justificatifs'];
+		//Update montant
+		$total = $_REQUEST['total'];
+		$modifEtat = $pdo->majValiderFicheFrais($leVisiteur,$leMois,$etat, $justificatifs, $total);
+		header('Location: index.php?uc=rembourserFrais&action=afficherFiche&idVisiteur='.
+		$leVisiteur.'&mois='.$leMois);
+		break;
     }
 	//Suppression du frais hors forfait sélectionné
 	case 'supprimerFrais':{

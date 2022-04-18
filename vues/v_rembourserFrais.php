@@ -3,6 +3,10 @@ Possibilité de redirection pour remodifier la ficher si besoin
 -->
     <?php if ($remboursementOK == true) { ?>
         <h1>Suivi de remboursement des Frais</h1>
+        <div>
+            <h3>Visiteur : <?php echo $visiteurSelect['id'] . '       ' . $visiteurSelect['nom'] . '  ' . $visiteurSelect['prenom'] ?>
+            </h3>
+        </div>
         <a href="index.php?uc=validerFrais&action=rechercherFicheFrais&idVisiteur=
 			<?= $leVisiteur . '&mois=' . $leMois; ?>">Modifier la fiche (si besoin)</a>
         <form name="formConsultFrais" method="post" action="index.php?uc=rembourserFrais&action=rembourserFiche&idVisiteur=
