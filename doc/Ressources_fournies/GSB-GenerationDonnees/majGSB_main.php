@@ -6,7 +6,7 @@ include("include/fct.inc.php");
 /* Modification des paramètres de connexion */
 
 $serveur='mysql:host=localhost';
-$bdd='dbname=gsbV2';   		
+$bdd='dbname=appli-frais';   		
 $user='root' ;    		
 $mdp='' ;	
 
